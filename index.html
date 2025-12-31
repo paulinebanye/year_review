@@ -151,7 +151,7 @@
 
         const count = checkedItems.size;
         ctx.font = "italic 14px Georgia";
-        ctx.fillText(`(${count} / 52 completed)`, centerX, 120);
+        ctx.fillText(`(${count} / ${leftItems.length + rightItems.length} completed)`, centerX, 120);
 
         // horizontal divider
         ctx.strokeStyle = "#000000";

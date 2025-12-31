@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Year Checklist</title>
     <style>
       body {
         margin: 0;
-        padding: 20px;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        overflow-x: hidden;
+        background: linear-gradient(to bottom, #ffb6d9, #ffd3b6);
         min-height: 100vh;
         background-attachment: fixed;
         font-family: Georgia, serif;
@@ -20,7 +22,10 @@
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
         cursor: pointer;
-        background-color: #fff;
+        /* background-color: #fff; */
+        max-width: 100%;
+        height: auto !important;
+        touch-action: manipulation; /* Improves tap response on mobile */
       }
     </style>
   </head>
@@ -78,7 +83,7 @@
         "Travelled by train 🚂",
         "Placed a bet 🎲",
         "Partied hard 🥳",
-        "Had a baby 👶"
+        "Had a baby 👶",
       ];
 
       const rightItems = [
@@ -109,7 +114,7 @@
         "Went to a concert 🎸",
         "Watched a complete series 🎬",
         "Made a new friend 🤝",
-        "Went to a mall 🏬"
+        "Went to a mall 🏬",
       ];
 
       const drawBackground = () => {
@@ -151,7 +156,11 @@
 
         const count = checkedItems.size;
         ctx.font = "italic 14px Georgia";
-        ctx.fillText(`(${count} / ${leftItems.length + rightItems.length} completed)`, centerX, 120);
+        ctx.fillText(
+          `(${count} / ${leftItems.length + rightItems.length} completed)`,
+          centerX,
+          120
+        );
 
         // horizontal divider
         ctx.strokeStyle = "#000000";
@@ -228,10 +237,21 @@
         });
       };
 
-      canvas.addEventListener("click", (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+      canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    
+    // Calculate the scale between the actual canvas size and the displayed size
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    // Adjust the click coordinates
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+      // canvas.addEventListener("click", (e) => {
+      //   const rect = canvas.getBoundingClientRect();
+      //   const x = e.clientX - rect.left;
+      //   const y = e.clientY - rect.top;
 
         // clear all button
         if (
